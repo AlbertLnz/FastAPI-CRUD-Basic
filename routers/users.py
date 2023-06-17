@@ -38,3 +38,11 @@ async def user(user: user):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found in DB!")
 
     return search_user('_id', ObjectId(user.id))
+
+@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
+async def user(id: str):
+    try:
+        mongo_db.users.find_one_and_delete({'_id': ObjectId(id)})
+        return {'message': 'User deleted!'}
+    except:
+        raise HTTPException(status_code=status.HTTP_417_EXPECTATION_FAILED, detail="User NOT deleted!")
