@@ -10,7 +10,7 @@ def search_user(field: str, key): # Associative List search (key can be any valu
         user = mongo_db.users.find_one({field: key})
         return User(**user_schema(user))
     except:
-        return JSONResponse({'error': 'User not found'}, status_code=404)
+        return JSONResponse({'error': 'User not found'}, status_code=404) #using JSONResponse
 
 
 def search_user_id(id:str, users_list:list): # searching by id 
@@ -18,4 +18,4 @@ def search_user_id(id:str, users_list:list): # searching by id
     try:
         return list(users)[0]
     except:
-        return JSONResponse({'error': 'User not found'}, status_code=404)
+        return JSONResponse({'error': 'User not found'}, status_code=404) #using JSONResponse
