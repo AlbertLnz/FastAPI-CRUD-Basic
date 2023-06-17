@@ -24,3 +24,17 @@ async def user(user: User):
 @router.get('/', response_model=User, status_code=status.HTTP_200_OK)
 async def user(id: str):
     return search_user('_id', ObjectId(id))
+
+@router.put('/', response_model=User, status_code=status.HTTP_200_OK)
+async def user(user: user):
+
+    user_dict = dict(user)
+    del user_dict['id']
+
+    try:
+        mongo_db.users.find_one_and_replace({'_id': ObjectId(user.id)}, user_dict)
+
+    except:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found in DB!")
+
+    return search_user('_id', ObjectId(user.id))
